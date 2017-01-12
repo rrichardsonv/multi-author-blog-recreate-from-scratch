@@ -12,6 +12,7 @@ gem 'sinatra-contrib'
 # i18n (Adds support for internationalization ie: ease of translating, room for characters)
 gem 'activesupport', '~> 4.2.0'
 gem 'activerecord', '~> 4.2.0'
+gem 'nokogiri', '~> 1.6.7.1'
 
 # Command line utility
 gem 'rake'

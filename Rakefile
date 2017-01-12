@@ -1,12 +1,18 @@
 require 'rake'
 
-require ::File.expand_path('../config/environment', __File__)
+require ::File.expand_path('../config/environment', __FILE__ )
 
+require 'active_support'
 require 'active_support/core_ext'
 
 namespace :generate do
-  desc "¿Porque no los dos?"
-  task :yolo => [print("  ヽ(⌐■_■)ﾉ\n🌊🌊[__YOLO__]🌊🌊"),:md(ENV['NAME']), :mg("create_"+ENV['NAME']+"s")]
+  # desc "¿Porque no los dos?"
+  # task :yolo => [:silly, :md(ENV['NAME']), :mg("create_"+ENV['NAME']+"s")]
+
+  desc "silly print"
+  task :silly do
+    print "  ヽ(⌐■_■)ﾉ\n🌊🌊[__YOLO__]🌊🌊"
+  end
 
 
   desc "Throw together a model, drop it into apps/model"
@@ -18,7 +24,7 @@ namespace :generate do
 
     model_name     = ENV['NAME'].camelize
     model_filename = ENV['NAME'].underscore + '.rb'
-    model_path     = APP_ROOT.join('app' 'models' model_filename)
+    model_path     = APP_ROOT.join('app', 'models', model_filename)
 
     if File.exist?(model_path)
       raise "ERROR: done fucked up and made the same model twice"
@@ -57,11 +63,11 @@ namespace :generate do
     end
 
 
-    
+
 
     mig_name     = ENV['NAME'].camelize
     mig_filename = "%s_%s.rb" % [Time.now.strftime('%Y%m%d%H%M%S'),ENV['NAME'].underscore]
-    mig_path     = APP_ROOT.join('db' 'migrate' mig_filename)
+    mig_path     = APP_ROOT.join('db', 'migrate', mig_filename)
 
 
 
@@ -77,19 +83,24 @@ namespace :generate do
             #{table_shorthand}
 
           end
-        
+
       EOF
     end
   end
-#END OF GENERATE NAMESPACE  
+#END OF GENERATE NAMESPACE
 end
 
 namespace :db do
   desc "Why would I use anything else?!"
-  task :yolo => [print("  ヽ(⌐■_■)ﾉ\n🌊🌊[__YOLO__]🌊🌊"),:drop, :create, :migrate, :seed]
+  task :yolo => [:silly,:drop, :create, :migrate, :seed]
 
   desc "Everyone's favorite catch all"
   task :reset => [:drop, :create, :migrate]
+
+  desc "silly print"
+  task :silly do
+    print "  ヽ(⌐■_■)ﾉ\n🌊🌊[__YOLO__]🌊🌊"
+  end
 
   desc "Creating the databases at #{DB_NAME}"
   task :create do
@@ -119,7 +130,7 @@ namespace :db do
     Rake::Task['db:version'].invoke if Rake::Task['db:version']
   end
 
-  dec "Fill that database with random stuff from db/seeds.rb!"
+  desc "Fill that database with random stuff from db/seeds.rb!"
   task :seed do
     require APP_ROOT.join('db', 'seeds.rb')
   end
