@@ -11,7 +11,7 @@ namespace :generate do
 
   desc "silly print"
   task :silly do
-    print "  ヽ(⌐■_■)ﾉ\n🌊🌊[__YOLO__]🌊🌊"
+    print "          ヽ(⌐■_■)ﾉ\n🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊[__YOLO__]🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n"
   end
 
 
@@ -99,7 +99,7 @@ namespace :db do
 
   desc "silly print"
   task :silly do
-    print "  ヽ(⌐■_■)ﾉ\n🌊🌊[__YOLO__]🌊🌊"
+    print "\n\n          ヽ(⌐■_■)ﾉ\n🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊[__YOLO__]🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊\n"
   end
 
   desc "Creating the databases at #{DB_NAME}"
@@ -111,14 +111,14 @@ namespace :db do
   desc "So many me@me.coms..... best just drop it "
   task :drop do
     puts "Dropping development and test databases..."
-    system("dropdb #{APP_NAME}_development && dropdb #{APP_NAME}_test")
+    `dropdb #{APP_NAME}_development && dropdb #{APP_NAME}_test`
   end
 
   desc "Stuff all those migration into the database (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
   task :migrate do
-    ActiveRecord::Migrator.migration_paths << File.dirname(__FILE__) + 'db/migrate'
+    ActiveRecord::Migrator.migrations_paths << File.dirname(__FILE__) + 'db/migrate'
     ActiveRecord::Migration.verbose = ENV["VERBOSE"] ? ENV["VERBOSE"] == "true" : true
-    ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migration_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do
+    ActiveRecord::Migrator.migrate(ActiveRecord::Migrator.migrations_paths, ENV["VERSION"] ? ENV["VERSION"].to_i : nil) do
       ENV["SCOPE"].blank? || (ENV["SCOPE"] == migration.scope)
     end
   end
